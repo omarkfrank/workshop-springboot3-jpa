@@ -3,7 +3,6 @@ package com.mark.projeto.cursoSpringBoot.config;
 import java.time.Instant;
 import java.util.Arrays;
 
-import org.apache.catalina.filters.AddDefaultCharsetFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.mark.projeto.cursoSpringBoot.entities.Category;
 import com.mark.projeto.cursoSpringBoot.entities.Order;
+import com.mark.projeto.cursoSpringBoot.entities.OrderItem;
 import com.mark.projeto.cursoSpringBoot.entities.Product;
 import com.mark.projeto.cursoSpringBoot.entities.User;
 import com.mark.projeto.cursoSpringBoot.entities.enums.OrderStatus;
 import com.mark.projeto.cursoSpringBoot.repositories.CategoryRepository;
+import com.mark.projeto.cursoSpringBoot.repositories.OrderItemRepository;
 import com.mark.projeto.cursoSpringBoot.repositories.OrderRepository;
 import com.mark.projeto.cursoSpringBoot.repositories.ProductRepository;
 import com.mark.projeto.cursoSpringBoot.repositories.UserRepository;
@@ -30,10 +31,13 @@ public class TestConfig implements CommandLineRunner {
 	private OrderRepository orderRepository;
 
 	@Autowired
+	private CategoryRepository categoryRepository;
+
+	@Autowired
 	private ProductRepository productRepository;
 
 	@Autowired
-	private CategoryRepository categoryRepository;
+	private OrderItemRepository orderItemRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -69,5 +73,12 @@ public class TestConfig implements CommandLineRunner {
 
 		userRepository.saveAll(Arrays.asList(u1, u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 	}
 }
